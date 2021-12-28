@@ -23,7 +23,7 @@ export default function DateTimeInputAndroid({ type, save }) {
     } else {
       setShow(false);
       setDateTime(format(new Date(currentDate), "HH:mm"));
-      save(format(new Date(currentDate), "HH:mm:ss"));
+      save(format(new Date(currentDate), "HH:mm"));
     }
   };
 

@@ -15,7 +15,7 @@ import TaskCard from "../../components/TaskCard";
 
 import api from "../../services/api";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [filter, setFilter] = useState("today");
   const [tasks, setTasks] = useState([]);
   const [load, setLoad] = useState(false);
@@ -39,6 +39,10 @@ export default function Home() {
 
   function Notification() {
     setFilter("late");
+  }
+
+  function New() {
+    navigation.navigate("Task");
   }
 
   useEffect(() => {
@@ -135,7 +139,7 @@ export default function Home() {
           ))
         )}
       </ScrollView>
-      <Footer icon={"add"} />
+      <Footer icon={"add"} onPress={New} />
     </View>
   );
 }

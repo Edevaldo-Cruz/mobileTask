@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 10,
   },
-  swtichLabel: {
+  switchLabel: {
     fontWeight: "bold",
     color: "#EE6B26",
     textTransform: "uppercase",
@@ -62,6 +62,9 @@ const styles = StyleSheet.create({
     color: "#20295F",
     textTransform: "uppercase",
     fontSize: 16,
+  },
+  typeIconInactive: {
+    opacity: 0.5,
   },
 });
 

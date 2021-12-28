@@ -13,11 +13,12 @@ export default function Header({
   ShowBack,
   pressNotification,
   late,
+  onPress,
 }) {
   return (
     <View style={styles.Header}>
       {ShowBack ? (
-        <TouchableOpacity style={styles.leftIcon}>
+        <TouchableOpacity style={styles.leftIcon} onPress={onPress}>
           <Image source={back} style={styles.leftIconImage} />
         </TouchableOpacity>
       ) : (
