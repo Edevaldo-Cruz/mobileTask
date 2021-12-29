@@ -6,6 +6,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
+import * as Network from "expo-network";
 
 import styles from "./styles";
 
@@ -20,19 +21,24 @@ export default function Home({ navigation }) {
   const [tasks, setTasks] = useState([]);
   const [load, setLoad] = useState(false);
   const [lateCount, setLateCount] = useState();
+  const [macaddress, setMacaddress] = useState();
+
+  async function getMacAddress() {
+    await Network.getIpAddressAsync().then((mac) => {
+      setMacaddress(mac);
+    });
+  }
 
   async function loadTasks() {
     setLoad(true);
-    await api
-      .get(`/task/filter/${filter}/11:11:11:11:11:11`)
-      .then((response) => {
-        setTasks(response.data);
-        setLoad(false);
-      });
+    await api.get(`/task/filter/${filter}/${macaddress}`).then((response) => {
+      setTasks(response.data);
+      setLoad(false);
+    });
   }
 
   async function lateVerify() {
-    await api.get(`/task/filter/late/11:11:11:11:11:11`).then((response) => {
+    await api.get(`/task/filter/late/${macaddress}`).then((response) => {
       setLateCount(response.data.length);
     });
   }
@@ -45,10 +51,20 @@ export default function Home({ navigation }) {
     navigation.navigate("Task");
   }
 
+  function Show(id) {
+    navigation.navigate("Task", { idTask: id });
+  }
+
   useEffect(() => {
-    loadTasks();
+    getMacAddress().then(() => {
+      loadTasks();
+    });
     lateVerify();
-  }, [filter]);
+  }, [filter, macaddress]);
+
+  function OpenQrCode() {
+    navigation.navigate("QrCode");
+  }
 
   return (
     <View style={styles.container}>
@@ -57,6 +73,7 @@ export default function Home({ navigation }) {
         ShowBack={false}
         pressNotification={Notification}
         late={lateCount}
+        onPress={OpenQrCode}
       />
       <View style={styles.filter}>
         <TouchableOpacity onPress={() => setFilter("all")}>
@@ -131,10 +148,11 @@ export default function Home({ navigation }) {
         ) : (
           tasks.map((t) => (
             <TaskCard
-              done={false}
+              done={t.done}
               title={t.title}
               when={t.when}
               type={t.type}
+              onPress={() => Show(t._id)}
             />
           ))
         )}

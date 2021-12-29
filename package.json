@@ -14,6 +14,7 @@
     "date-fns": "^2.11.0",
     "datetimepicker": "^0.1.39",
     "expo": "^44.0.0",
+    "expo-application": "~4.0.1",
     "expo-barcode-scanner": "~11.2.0",
     "expo-network": "~4.1.0",
     "react": "17.0.1",
